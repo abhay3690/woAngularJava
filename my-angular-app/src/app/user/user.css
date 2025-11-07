@@ -1,0 +1,49 @@
+.container {
+  max-width: 700px;
+  margin: 40px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.search-bar{
+padding: 20px;
+  width: 10em;
+}
+
+h2 {
+  text-align: center;
+  color: #1976d2;
+  margin-bottom: 20px;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.user-table th, .user-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.user-table th {
+  background-color: #1976d2;
+  color: white;
+}
+
+.user-table button {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  margin: 0 3px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.user-table button:last-child {
+  background: #f44336;
+}

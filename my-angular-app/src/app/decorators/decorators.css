@@ -1,0 +1,17 @@
+.parent {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 25px;
+  background: #f9fafc;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.reply {
+  background: #e8ffed;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 15px;
+  color: #006400;
+  font-weight: 500;
+}

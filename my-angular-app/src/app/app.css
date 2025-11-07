@@ -1,0 +1,8 @@
+.main{
+    color: rgb(1, 15, 15);
+}
+.main-content {
+  min-height: 70vh;
+  background-color: #fdfdfd;
+  padding-bottom: 40px;
+}

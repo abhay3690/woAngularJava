@@ -1,0 +1,12 @@
+<div class="page">
+  <h2>Contact Us</h2>
+  <form *ngIf="!submitted" (ngSubmit)="submitForm()" #contactForm="ngForm">
+    <input type="text" placeholder="Your Name" [(ngModel)]="name" name="name" required />
+    <textarea placeholder="Your Message" [(ngModel)]="message" name="message" required></textarea>
+    <button type="submit">Send</button>
+  </form>
+
+  <div *ngIf="submitted" class="thank-you">
+    <p>Thank you, {{ name }}! Your message has been received.</p>
+  </div>
+</div>

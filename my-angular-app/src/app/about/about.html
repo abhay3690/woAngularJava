@@ -1,0 +1,48 @@
+<div class="about-container">
+  <h1>About {{ companyName }}</h1>
+  <p class="founded">Established in {{ foundedYear }}</p>
+
+  <section class="about-section">
+    <h2>📍 Company Headquarters</h2>
+    <div class="contact-info">
+      <p>
+        {{ address.street }}<br />
+        {{ address.city }}, {{ address.state }} - {{ address.zip }}<br />
+        {{ address.country }}
+      </p>
+    </div>
+  </section>
+
+  <section class="about-section">
+    <h2>🎯 Our Mission</h2>
+    <p>{{ mission }}</p>
+  </section>
+
+  <section class="about-section">
+    <h2>🌍 Our Vision</h2>
+    <p>{{ vision }}</p>
+  </section>
+
+  <section class="about-section">
+    <h2>👨‍⚕️ Meet Our Leadership Team</h2>
+    <div class="team-grid">
+      <div class="team-card" *ngFor="let member of team">
+        <img [src]="member.image" [alt]="member.name" />
+        <h3>{{ member.name }}</h3>
+        <p>{{ member.role }}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-section quote">
+    <p>💡 "Transforming healthcare through innovation, compassion, and technology."</p>
+  </section>
+
+  <section class="about-section contact">
+    <h2>📞 Get in Touch</h2>
+    <p>
+      <strong>Email:</strong> {{ contactEmail }}<br />
+      <strong>Phone:</strong> {{ contactPhone }}
+    </p>
+  </section>
+</div>

@@ -1,0 +1,49 @@
+<div class="user-container">
+  <h2>User Management</h2>
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="searchUser()"
+      placeholder="🔍 Search user by name..."
+    />
+    <button (click)="clearSearch()" *ngIf="searchTerm">Clear</button>
+  </div>
+
+  <!-- Child component for Add/Edit -->
+  <app-user-crud
+    [user]="selectedUser"
+    [isEdit]="isEdit"
+    (save)="saveUser($event)"
+    (cancel)="resetForm()">
+  </app-user-crud>
+
+  <h3>All Users</h3>
+
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Contact Number</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of users">
+        <td>{{ u.id }}</td>
+        <td>{{ u.name }}</td>
+        <td>{{ u.email }}</td>
+        <td>{{ u.contactNumber }}</td>
+        <td>
+          <button (click)="editUser(u)">✏️ Edit</button>
+          <button (click)="deleteUser(u.id)">🗑️ Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+            

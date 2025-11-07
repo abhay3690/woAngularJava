@@ -1,0 +1,42 @@
+<p>pipe works!</p>
+<div class="container">
+  <h1>{{ title }}</h1>
+
+  <!-- BUILT-IN PIPES -->
+  <section>
+    <h2>💠 Built-in Pipes</h2>
+
+    <p><strong>Uppercase:</strong> {{ name | uppercase }}</p>
+    <p><strong>Lowercase:</strong> {{ name | lowercase }}</p>
+    <p><strong>Titlecase:</strong> {{ name | titlecase }}</p>
+    <p><strong>Date (short):</strong> {{ today | date: 'short' }}</p>
+    <p><strong>Date (full):</strong> {{ today | date: 'fullDate' }}</p>
+    <p><strong>Currency (USD):</strong> {{ amount | currency: 'USD' }}</p>
+    <p><strong>Percent:</strong> {{ percentValue | percent:'1.2-2' }}</p>
+    <p><strong>JSON:</strong> {{ jsonData | json }}</p>
+    <p><strong>Number Format:</strong> {{ amount | number:'1.2-2' }}</p>
+    <p><strong>Slice (first 6 chars):</strong> {{ message | slice:0:6 }}</p>
+  </section>
+
+  <hr />
+
+  <!-- CUSTOM PIPES -->
+  <section>
+    <h2>🧩 Custom Pipes</h2>
+
+    <p><strong>Original:</strong> {{ message }}</p>
+    <p><strong>Reversed:</strong> {{ message | reverse }}</p>
+    <p><strong>Number:</strong> {{ numberValue }}</p>
+    <p><strong>Multiplied (×3):</strong> {{ numberValue | multiply:3 }}</p>
+  </section>
+
+  <hr />
+
+  <!-- CHAINED PIPES -->
+  <section>
+    <h2>🔗 Chained Pipes</h2>
+
+    <p><strong>Reversed + Uppercase:</strong> {{ message | reverse | uppercase }}</p>
+    <p><strong>Currency + Slice:</strong> {{ amount | currency:'USD' | slice:0:6 }}</p>
+  </section>
+</div>

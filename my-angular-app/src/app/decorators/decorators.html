@@ -1,0 +1,14 @@
+<div class="parent">
+  <h2> Parent Component</h2>
+
+  <p><strong>Message to Child:</strong> {{ parentMessage }}</p>
+
+  <app-child
+    [childMessage]="parentMessage"
+    (messageEvent)="handleChildMessage($event)"
+  ></app-child>
+
+  <p *ngIf="receivedMessage" class="reply">
+    <strong>Received from Child:</strong> {{ receivedMessage }}
+  </p>
+</div>

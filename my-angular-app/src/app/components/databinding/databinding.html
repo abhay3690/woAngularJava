@@ -1,0 +1,61 @@
+<p>databinding works!</p>
+
+<div ((scroll))="onWindowSizeChange()" style="height: 500px; overflow: scroll; "></div>
+
+<table style="width: 100%;">
+    <tr>
+        <td>
+            <span>{{courseName}}</span>
+        </td>
+        <td>
+            <input type="text" value="{{rollNo}}">
+        </td>
+        <td>
+            {{currentDate}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" [value]="rollNo">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" [minLength]="minTestLength">
+        </td>
+        <td>
+            <span [class]="spanClassName">Demo</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {{rollNo}}
+        </td>
+        <td>
+            <input type="text" [(ngModel)]="rollNo">
+        </td>
+        <td>
+            <input type="checkbox" [(ngModel)]="isActive">
+        </td>
+        <td>
+            {{isActive}}
+        </td>
+    </tr>
+</table>
+<br>
+<hr>
+<table style="background-color: brown;"(mouseenter)="onModuEnter()">
+    <tr>
+        <td>
+            <button (click)="showAlert()">Show alert</button>
+        </td>
+        <td>
+            <select (change)="onCityChange()">
+                <option value="">Ahmedabad</option>
+                <option value="">Surat</option>
+                <option value="">Vadodara</option>
+                <option value="">Rajkot</option>
+            </select>
+        </td>
+    </tr>
+</table>
