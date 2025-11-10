@@ -1,18 +1,25 @@
 <div class="user-container">
   <h2>User Management</h2>
 
-  <!-- Search Bar -->
-  <div class="search-bar">
-    <input
-      type="text"
-      [(ngModel)]="searchTerm"
-      (input)="searchUser()"
-      placeholder="🔍 Search user by name..."
-    />
-    <button (click)="clearSearch()" *ngIf="searchTerm">Clear</button>
+  <!-- 🔍 Search Bar and Export Button -->
+  <div class="search-export-container">
+    <div class="search-bar">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="searchUser()"
+        placeholder="🔍 Search user by name..."
+      />
+      <button (click)="clearSearch()" *ngIf="searchTerm">Clear</button>
+    </div>
+
+    <!-- 📦 Export Button -->
+    <div class="export-section">
+      <button (click)="exportToCSV()">⬇️ Export CSV</button>
+    </div>
   </div>
 
-  <!-- Child component for Add/Edit -->
+  <!-- 🧩 Child component for Add/Edit -->
   <app-user-crud
     [user]="selectedUser"
     [isEdit]="isEdit"
@@ -22,6 +29,7 @@
 
   <h3>All Users</h3>
 
+  <!-- 🧾 Users Table -->
   <table class="user-table">
     <thead>
       <tr>
@@ -38,6 +46,7 @@
         <td>{{ u.name }}</td>
         <td>{{ u.email }}</td>
         <td>{{ u.contactNumber }}</td>
+        <!-- <td>{{ u.password}}</td> -->
         <td>
           <button (click)="editUser(u)">✏️ Edit</button>
           <button (click)="deleteUser(u.id)">🗑️ Delete</button>
@@ -46,4 +55,4 @@
     </tbody>
   </table>
 </div>
-            
+

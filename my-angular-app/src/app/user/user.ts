@@ -14,7 +14,7 @@ import { RouterLink } from '@angular/router';
 })
 export class User implements OnInit {
   users: any[] = [];
-  selectedUser: any = { name: '', email: '', contactNumber: '' };
+  selectedUser: any = { name: '', email: '', contactNumber: '', password: '' };
   isEdit = false;
   searchTerm: string = '';
 
@@ -46,7 +46,35 @@ export class User implements OnInit {
     this.searchTerm = '';
     this.loadUsers();
   }
+exportToCSV() {
+  let url = `${this.apiUrl}/export`;
+  if (this.searchTerm.trim()) {
+    url += `?name=${this.searchTerm.trim()}`;
+  }
 
+  this.http.get(url, { responseType: 'blob', observe: 'response' }).subscribe({
+    next: (response) => {
+      if (response.status === 404) {
+        alert('No users found for export!');
+        return;
+      }
+      const blob = new Blob([response.body!], { type: 'text/csv' });
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = this.searchTerm
+        ? `users_${this.searchTerm}.csv`
+        : 'users_all.csv';
+      link.click();
+    },
+    error: (err) => {
+      if (err.status === 404) {
+        alert(err.error || 'No users found for export!');
+      } else {
+        alert('Error exporting CSV: ' + err.message);
+      }
+    }
+  });
+}
   saveUser(user: any) {
     if (this.isEdit && user.id) {
       this.http.put(`${this.apiUrl}/${user.id}`, user).subscribe({
@@ -87,7 +115,7 @@ export class User implements OnInit {
   }
 
   resetForm() {
-    this.selectedUser = { name: '', email: '', contactNumber: '' };
+    this.selectedUser = { name: '', email: '', contactNumber: '', password: '' };
     this.isEdit = false;
   }
 }

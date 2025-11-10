@@ -18,7 +18,7 @@ export interface User {
   styleUrl: './user-crud.css',
 })
 export class UserCrud {
-  @Input() user: any = { name: '', email: '', contactNumber: '' };
+  @Input() user: any = { name: '', email: '', contactNumber: '', password: '' };
   @Input() isEdit: boolean = false;
   @Output() save = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<void>();
