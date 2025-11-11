@@ -12,6 +12,6 @@ public interface UserService {
     List<User> searchUsers(String name);
     void exportUserToCSV(Writer writer, String name);
 
-//    User registerNewUser(User user);
+    User registerNewUser(User user);
 
 }

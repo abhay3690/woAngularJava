@@ -1,13 +1,14 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.constants.AppConstatns;
+import com.example.demo.model.Role;
 import com.example.demo.model.User;
+import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.OptimisticLockingFailureException;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,20 +18,20 @@ import java.util.List;
 
 
 @Service
+
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-//    private final RoleRepository roleRepository;
-//    private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
-    public UserServiceImpl(UserRepository userRepository
-//                           RoleRepository roleRepository,
-) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-//        this.roleRepository = roleRepository;
-//        this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
+
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -124,19 +125,15 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-//    @Override
-//    public User registerNewUser(User user) {
-//        // 🔐 Encode the password before saving
-//        user.setPassword(this.passwordEncoder.encode(user.getPassword()));
-//
-//        // 🎭 Assign default role
-//        Role role = this.roleRepository.findById(AppConstatns.NORMAL_USER)
-//                .orElseThrow(() -> new RuntimeException("Default role not found"));
-//
-//        // Add role to user
-//        user.getRoles().add(role);
-//
-//        // 💾 Save user entity directly
-//        return this.userRepository.save(user);
-//    }
+    @Override
+    public User registerNewUser(User user) {
+        user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+
+        Role role = this.roleRepository.findById(AppConstatns.NORMAL_USER)
+                .orElseThrow(() -> new RuntimeException("Default ROLE_USER not found in database"));
+
+        user.getRoles().add(role);
+        return this.userRepository.save(user);
+    }
+
 }
