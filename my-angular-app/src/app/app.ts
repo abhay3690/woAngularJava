@@ -11,10 +11,12 @@ import { Body } from './body/body';
 import { Footer } from './footer/footer';
 
 import { User } from './user/user';
+import { Login } from './login/login';
+import { Register } from './register/register';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterModule, Admin /*, User*/, Databinding, ControlFlow, Pipe, Decorators, Header, Body, Footer, User],
+  imports: [RouterOutlet, RouterModule, Admin, Databinding, ControlFlow, Pipe, Decorators, Header, Body, Footer, User, Login, Register],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

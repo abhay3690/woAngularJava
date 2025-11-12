@@ -1,34 +1,32 @@
 package com.example.demo;
 
 import com.example.demo.constants.AppConstatns;
-//import com.example.demo.model.Role;
-//import com.example.demo.repository.RoleRepository;
+import com.example.demo.model.Role;
+import com.example.demo.repository.RoleRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
-
+@RequiredArgsConstructor
 @SpringBootApplication
-public class DemoApplication /*implements CommandLineRunner*/ {
+public class DemoApplication /*implements CommandLineRunner*/{
 //    private final PasswordEncoder passwordEncoder;
-
+//
 //    private final RoleRepository roleRepo;
 
-//    public DemoApplication(PasswordEncoder passwordEncoder, RoleRepository roleRepo) {
-//        this.passwordEncoder = passwordEncoder;
-//        this.roleRepo = roleRepo;
-//    }
 
     public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 		System.out.println("This is the testing");
-	}
-//
+        System.out.println(new BCryptPasswordEncoder().encode("admin123"));
+
+    }
 //    @Override
 //    public void run(String... args) throws Exception {
-//
 //        try {
 //
 //            Role role = new Role();

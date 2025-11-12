@@ -5,10 +5,10 @@ import com.example.demo.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200") // Angular support
 @RestController
@@ -21,14 +21,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    // GET all users
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    // GET user by ID
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(userService.getUserById(id));
@@ -36,9 +36,8 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-
-    // CREATE user
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
         try {
             User createdUser = userService.createUser(user);
@@ -47,9 +46,8 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
-
-    // UPDATE user
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN', 'USER')")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody User user) {
         try {
             User updatedUser = userService.updateUser(id, user);
@@ -58,9 +56,8 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
-
-    // DELETE user
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         try {
             userService.deleteUser(id);
@@ -70,36 +67,13 @@ public class UserController {
         }
     }
     @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<User>> searchUsers(@RequestParam String name) {
         List<User> users = userService.searchUsers(name);
         return ResponseEntity.ok(users);
     }
-
-    /*@GetMapping("/export")
-    public ResponseEntity<?> exportUsersToCSV(HttpServletResponse response) {
-        try {
-            // Set response headers
-            response.setContentType("text/csv");
-            response.setHeader("Content-Disposition", "attachment; filename=users.csv");
-
-            // Write CSV content
-            userService.exportUserToCSV(response.getWriter());
-
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error while exporting CSV: " + e.getMessage());
-        }
-    }*/
-//    @GetMapping("/export")
-//    public void exportUsersToCSV(HttpServletResponse response) throws IOException {
-//        response.setContentType("text/csv");
-//        response.setHeader("Content-Disposition", "attachment; filename=users.csv");
-//        userService.exportUserToCSV(response.getWriter());
-//    }
-
-
     @GetMapping("/export")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public void exportUsers(@RequestParam(required = false) String name, HttpServletResponse response) {
         response.setContentType("text/csv");
         String filename = (name != null && !name.trim().isEmpty())
@@ -118,7 +92,5 @@ public class UserController {
             throw new RuntimeException("Error exporting CSV: " + e.getMessage());
         }
     }
-
-
 }
 

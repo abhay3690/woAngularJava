@@ -6,7 +6,7 @@
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+}              
 .reply {
   background: #e8ffed;
   padding: 10px;
@@ -15,3 +15,4 @@
   color: #006400;
   font-weight: 500;
 }
+/* http://localhost:8080/swagger-ui/index.html#/ */
