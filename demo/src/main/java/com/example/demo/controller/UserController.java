@@ -5,6 +5,7 @@ import com.example.demo.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -21,11 +22,13 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(userService.getUserById(id));
@@ -34,6 +37,7 @@ public class UserController {
         }
     }
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
         try {
             User createdUser = userService.createUser(user);
@@ -43,6 +47,7 @@ public class UserController {
         }
     }
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN', 'USER')")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody User user) {
         try {
             User updatedUser = userService.updateUser(id, user);
@@ -52,6 +57,7 @@ public class UserController {
         }
     }
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         try {
             userService.deleteUser(id);
@@ -61,11 +67,13 @@ public class UserController {
         }
     }
     @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<User>> searchUsers(@RequestParam String name) {
         List<User> users = userService.searchUsers(name);
         return ResponseEntity.ok(users);
     }
     @GetMapping("/export")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public void exportUsers(@RequestParam(required = false) String name, HttpServletResponse response) {
         response.setContentType("text/csv");
         String filename = (name != null && !name.trim().isEmpty())
@@ -84,7 +92,5 @@ public class UserController {
             throw new RuntimeException("Error exporting CSV: " + e.getMessage());
         }
     }
-
-
 }
 
