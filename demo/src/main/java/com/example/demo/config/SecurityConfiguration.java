@@ -32,7 +32,8 @@ public class SecurityConfiguration {
             "/v3/api-docs/**",
             "/swagger-resources/**",
             "/swagger-ui/**",
-            "/webjars/**"
+            "/webjars/**",
+            "/api/public/**"
     };
 
     private final JWTAuthenticationFilter jwtAuthFilter;
@@ -67,7 +68,7 @@ public class SecurityConfiguration {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Allow Angular app origin
+        // Allow Angular app originhiihihhhihihhihiuh
         configuration.setAllowedOrigins(List.of("http://localhost:4200"));
 
         // Allow required HTTP methods
