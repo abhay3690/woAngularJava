@@ -1,0 +1,14 @@
+<p>login works!</p>
+<h1>sdaf</h1>
+<h2>Login</h2>
+<form (ngSubmit)="onSubmit()">
+  <label >Email:</label>
+  <input [(ngModel)]="credentials.email" name="email" required>
+
+  <label>Password:</label>
+  <input [(ngModel)]="credentials.password" name="password" type="password" required>
+
+  <button type="submit">Login</button>
+</form>
+
+<p>Don't have an account?<button routerLink='/register' > Register</button></p>

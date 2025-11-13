@@ -1,0 +1,42 @@
+<header class="header">
+  <h1 routerLink="/">🌐 eWork Pvt. Ltd.</h1>
+
+  <nav>
+    <ul class="nav-list">
+      <li class="nav-item"><p routerLink="/">Home</p></li>
+
+      <li class="nav-item"><p routerLink="/about">About</p></li>
+
+      <li class="nav-item">
+        <p routerLink="/services">Services ▾</p>
+        <ul class="dropdown">
+          <li><p>Web Development</p></li>
+          <li><p>App Development</p></li>
+          <li><p>Cloud Services</p></li>
+        </ul>
+      </li>
+
+      <li class="nav-item"><p routerLink="/contact">Contact</p></li>
+
+      <li class="nav-item">
+        <p routerLink="/users">Add User ▾</p>
+        <ul class="dropdown">
+          <li><p>View Users</p></li>
+          <li><p>Manage Roles</p></li>
+        </ul>
+      </li>
+
+      <!-- 👇 Conditional Buttons -->
+      <ng-container *ngIf="!isLoggedIn; else loggedInBlock">
+        <li class="nav-item"><p routerLink="/login">Login</p></li>
+        <li class="nav-item"><p routerLink="/register">Register</p></li>
+      </ng-container>
+
+      <ng-template #loggedInBlock>
+        <li class="nav-item">
+          <button class="logout-btn" (click)="logout()">Logout</button>
+        </li>
+      </ng-template>
+    </ul>
+  </nav>
+</header>

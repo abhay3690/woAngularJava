@@ -1,0 +1,144 @@
+/* ======= ECOMMERCE BODY CONTAINER ======= */
+.ecommerce-body {
+  max-width: 1200px;
+  margin: 100px auto 50px; /* adds space below fixed header */
+  padding: 0 2rem;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  color: #2b3a55;
+}
+
+/* ======= HEADINGS ======= */
+.ecommerce-body h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #2b3a55;
+}
+
+.ecommerce-body p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+/* ======= LOGOUT BUTTON ======= */
+.ecommerce-body button:first-child {
+  background: #d9534f;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  position: absolute;
+  top: 90px;
+  right: 30px;
+}
+
+.ecommerce-body button:first-child:hover {
+  background: #c9302c;
+  transform: translateY(-2px);
+}
+
+/* ======= PRODUCT GRID ======= */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.8rem;
+  margin-top: 2rem;
+  justify-items: center;
+}
+
+/* ======= PRODUCT CARD ======= */
+.product-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  width: 100%;
+  max-width: 280px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* ======= PRODUCT IMAGE ======= */
+.product-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+/* ======= PRODUCT INFO ======= */
+.product-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 1rem 1rem 0.5rem;
+  color: #2b3a55;
+}
+
+.product-card .description {
+  font-size: 0.95rem;
+  color: #666;
+  margin: 0 1rem 1rem;
+  min-height: 40px;
+}
+
+.product-card .price {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ff6600;
+  margin: 0 1rem 1rem;
+}
+
+/* ======= ADD TO CART BUTTON ======= */
+.product-card button {
+  display: block;
+  width: 90%;
+  margin: 0 auto 1rem;
+  padding: 0.6rem 1.2rem;
+  background: #2b3a55;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.product-card button:hover {
+  background: #ffcc00;
+  color: #2b3a55;
+  transform: translateY(-2px);
+}
+
+/* ======= RESPONSIVE ======= */
+@media (max-width: 768px) {
+  .ecommerce-body {
+    margin: 120px 1rem 50px;
+    padding: 0;
+  }
+
+  .product-grid {
+    gap: 1.2rem;
+  }
+
+  .product-card {
+    max-width: 100%;
+  }
+
+  .ecommerce-body button:first-child {
+    position: static;
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+}
