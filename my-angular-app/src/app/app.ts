@@ -6,17 +6,14 @@ import { Databinding } from './components/databinding/databinding';
 import { ControlFlow } from "./control-flow/control-flow";
 import { Pipe } from './pipe/pipe';
 import { Decorators } from './decorators/decorators';
-import { Header } from './header/header';
-import { Body } from './body/body';
-import { Footer } from './footer/footer';
+import { Header } from './componentweb/header/header';
 
-import { User } from './user/user';
-import { Login } from './login/login';
-import { Register } from './register/register';
+import { User } from './componentweb/user/user';
+import { Footer } from './componentweb/footer/footer';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterModule, Admin, Databinding, ControlFlow, Pipe, Decorators, Header, Body, Footer, User, Login, Register],
+  imports: [RouterOutlet, RouterModule, Admin, Databinding, ControlFlow, Pipe, Decorators, Header, Footer, User, ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

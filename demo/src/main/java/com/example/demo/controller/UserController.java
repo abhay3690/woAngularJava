@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:4200") // Angular support
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true") // Angular support
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
