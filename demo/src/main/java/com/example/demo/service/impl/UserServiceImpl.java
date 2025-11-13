@@ -54,8 +54,19 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByContactNumber(user.getContactNumber())) {
             throw new RuntimeException("Contact number already exists!");
         }
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.setPassword(encoder.encode(user.getPassword()));
+       // ✅ Encode only once
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // ✅ Assign role safely
+        Role role = roleRepository.findById(AppConstatns.NORMAL_USER)
+                .orElseGet(() -> {
+                    Role newRole = new Role();
+                    newRole.setId(AppConstatns.NORMAL_USER);
+                    newRole.setName("ROLE_USER");
+                    return roleRepository.save(newRole);
+                });
+
+        user.getRoles().add(role);
 
         return userRepository.save(user);
     }
@@ -77,7 +88,6 @@ public class UserServiceImpl implements UserService {
         existingUser.setName(updatedUser.getName());
         existingUser.setEmail(updatedUser.getEmail());
         existingUser.setContactNumber(updatedUser.getContactNumber());
-        // 🔐 Only update password if a new one is provided
         if (updatedUser.getPassword() != null && !updatedUser.getPassword().isBlank()) {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             existingUser.setPassword(encoder.encode(updatedUser.getPassword()));
@@ -87,9 +97,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new RuntimeException("User not found with id " + id);
+        }
         userRepository.deleteById(id);
     }
-
     @Override
     public List<User> searchUsers(@RequestParam String name) {
         return userRepository.findByNameContainingIgnoreCase(name);
