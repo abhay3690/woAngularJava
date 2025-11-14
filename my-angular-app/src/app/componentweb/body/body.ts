@@ -55,7 +55,7 @@ export class Body {
   logout() {
     this.authservice.logout();
     alert('Logged out successfully!');
-    window.location.reload();
+    // window.location.reload();
      this.router.navigate(['/login']);
   }
 }

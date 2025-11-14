@@ -10,6 +10,7 @@ export class AuthService {
 
   private TOKEN_KEY = 'jwt_token';
   private baseUrl = 'http://localhost:8080/api/v1/auth';
+  private commonUrl = 'http://localhost:8080/api/public';
 
   constructor(private http: HttpClient) { }
 
@@ -34,4 +35,10 @@ export class AuthService {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
+  resetPassword(data: any): Observable<any> {
+    return this.http.post(`${this.commonUrl}/reset-password`, data);
+  }
+  forgetPassword(data: any): Observable<any> {
+    return this.http.post(`${this.commonUrl}/forgot-password`, data);
+  }
 }

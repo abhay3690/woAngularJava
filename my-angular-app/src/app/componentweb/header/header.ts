@@ -11,6 +11,7 @@ import { AuthService } from '../service/auth.service';
 })
 export class Header implements OnInit {
   isLoggedIn = false;
+  name: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -20,11 +21,13 @@ export class Header implements OnInit {
 
   checkLoginStatus(): void {
     const token = localStorage.getItem('jwt_token');
+    this.name = localStorage.getItem('userName') || '';
     this.isLoggedIn = !!token;
   }
 
   logout(): void {
     localStorage.removeItem('jwt_token');
+    localStorage.removeItem('userName');
     this.isLoggedIn = false;
     this.router.navigate(['/login']);
   }

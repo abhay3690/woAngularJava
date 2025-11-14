@@ -44,6 +44,7 @@ public class AuthenticationService {
             String jwtToken = jwtService.generateToken((UserDetails) user);
             return AuthenticationResponse.builder()
                     .token(jwtToken)
+                    .userName(user.getName())
                     .build();
 
         } catch (BadCredentialsException e) {

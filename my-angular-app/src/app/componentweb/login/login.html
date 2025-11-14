@@ -1,4 +1,54 @@
 <p>login works!</p>
+
+<h2>Login</h2>
+
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+  <!-- EMAIL -->
+  <label>Email:</label>
+  <input type="email" formControlName="email">
+  <span class="error" 
+        *ngIf="loginForm.controls['email'].touched && loginForm.controls['email'].invalid">
+      Valid email is required
+  </span>
+
+  <!-- PASSWORD -->
+  <label>Password:</label>
+  <input type="password" formControlName="password">
+  <span class="error"
+        *ngIf="loginForm.controls['password'].touched && loginForm.controls['password'].invalid">
+      Password must be at least 6 characters
+  </span>
+
+  <!-- LOGIN BUTTON -->
+  <button type="submit" [disabled]="loginForm.invalid">Login</button>
+
+  <!-- FORGOT PASSWORD -->
+  <button type="button" (click)="forgetpassword()">Forget Password</button>
+</form>
+
+<p>
+  Don't have an account?
+  <button routerLink="/register">Register</button>
+</p>
+
+<!-- Error -->
+<p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <p>login works!</p>
 <h1>sdaf</h1>
 <h2>Login</h2>
 <form (ngSubmit)="onSubmit()">
@@ -9,6 +59,8 @@
   <input [(ngModel)]="credentials.password" name="password" type="password" required>
 
   <button type="submit">Login</button>
+
+  <button (click)="forgetpassword()">Forget password</button>
 </form>
 
-<p>Don't have an account?<button routerLink='/register' > Register</button></p>
+<p>Don't have an account?<button routerLink='/register' > Register</button></p> -->

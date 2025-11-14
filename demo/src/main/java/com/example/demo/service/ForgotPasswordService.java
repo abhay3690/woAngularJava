@@ -2,12 +2,18 @@ package com.example.demo.service;
 
 import com.example.demo.repository.UserRepository;
 import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
@@ -19,10 +25,17 @@ public class ForgotPasswordService {
     private final UserRepository userRepository;
     private final JavaMailSender mailSender;
     private final PasswordEncoder passwordEncoder;
+    private final JavaMailSender javaMailSender;
 
-    /**
-     * Step 1: Send OTP to email
-     */
+    @Value("${spring.mail.recieved.hostname}")
+    private String MAIL_FROM_HOST_NAME;
+    @Value("${spring.mail.fromName}")
+    private String MAIL_FROM_NAME;
+    @Value("${spring.send.otp.template.name}")
+    private String SEND_OTP_TEMPLATE_NAME;
+
+    private final TemplateEngine templateEngine;
+
     public String generateAndSendOtp(String email) {
         var userOpt = userRepository.findByEmail(email);
         if (userOpt.isEmpty()) {
@@ -37,7 +50,8 @@ public class ForgotPasswordService {
         userRepository.save(user);
 
         try {
-            sendOtpEmail(email, otp);
+            sendOtpEmail(email, otp, user.getName());
+
         } catch (Exception e) {
             throw new RuntimeException("Failed to send OTP: " + e.getMessage());
 
@@ -47,6 +61,8 @@ public class ForgotPasswordService {
     }
 
     public String verifyOtpAndResetPassword(String email, String otp, String newPassword) {
+
+        System.out.println(newPassword);
         var userOpt = userRepository.findByEmail(email);
         if (userOpt.isEmpty()) {
             throw new RuntimeException("No user found with this email!");
@@ -69,19 +85,35 @@ public class ForgotPasswordService {
     /**
      * Utility: Send HTML email with OTP
      */
-    private void sendOtpEmail(String to, String otp) throws MessagingException {
+    private void sendOtpEmail(String to, String otp, String name) throws MessagingException, UnsupportedEncodingException {
         String subject = "Password Reset OTP";
-        String body = "<div style='font-family:Arial,sans-serif;padding:20px;'>"
-                + "<h2>Your OTP for password reset:</h2>"
-                + "<h3 style='color:blue;'>" + otp + "</h3>"
-                + "<p>Do not share this OTP with anyone.</p>"
-                + "</div>";
 
-        var message = mailSender.createMimeMessage();
-        var helper = new MimeMessageHelper(message, true);
-        helper.setTo(to);
-        helper.setSubject(subject);
-        helper.setText(body, true);
-        mailSender.send(message);
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,
+                MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
+
+        mimeMessageHelper.setTo(to);
+        mimeMessageHelper.setSubject(subject);
+        mimeMessageHelper.setFrom(MAIL_FROM_HOST_NAME, MAIL_FROM_NAME);
+
+        // Thymeleaf template processing
+        Context context = initializeThymeleafContext(otp, name);
+
+        String emailTemplate = templateEngine.process(SEND_OTP_TEMPLATE_NAME, context);
+        mimeMessageHelper.setText(emailTemplate, true);
+
+        javaMailSender.send(mimeMessage);
+
     }
+
+
+    private Context initializeThymeleafContext(String otp, String name) {
+        Context context = new Context();
+        context.setVariable("otp",otp);
+        context.setVariable("userName", name);
+        context.setVariable("verificationLink", "http://localhost:4200/resetpassword");
+        return context;
+    }
+
+
 }

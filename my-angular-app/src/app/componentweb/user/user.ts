@@ -77,6 +77,7 @@ exportToCSV() {
 }
   saveUser(user: any) {
     if (this.isEdit && user.id) {
+      console.log('Updating url:',`${this.apiUrl}/${user.id}`);
       this.http.put(`${this.apiUrl}/${user.id}`, user).subscribe({
         next: () => {
           alert('User updated successfully!');

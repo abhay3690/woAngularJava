@@ -7,7 +7,11 @@ form {
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-
+.error{
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
 h2 {
   text-align: center;
   color: #2b3a55;
@@ -30,7 +34,7 @@ input {
 
 button {
   margin-top: 1.5rem;
-  width: 100%;
+  width: 104%;
   background: #2b3a55;
   color: white;
   border: none;

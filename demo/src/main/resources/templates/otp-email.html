@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>One-time passcode</title>
+    <style>
+        /* Simple safe inline CSS for most email clients */
+        body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f4f6f8; color:#333; }
+        .container { max-width:600px; margin:28px auto; background:#ffffff; border-radius:8px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.08); }
+        .header { padding:20px; background:#0d6efd; color:#fff; text-align:center; }
+        .content { padding:24px; }
+        .otp-box { margin:20px auto; width:fit-content; background:#f7f9fc; padding:18px 22px; border-radius:8px; font-size:28px; letter-spacing:6px; font-weight:700; }
+        .small { font-size:13px; color:#666; }
+        .cta { display:inline-block; margin-top:18px; padding:10px 16px; background:#0d6efd; color:#FF0000; border-radius:6px; text-decoration:none; }
+        .footer { padding:18px; font-size:12px; color:#888; text-align:center; background:#fafafa; }
+    </style>
+</head>
+<body>
+<div class="container" role="article" aria-label="OTP email">
+<!--    <div class="header">-->
+<!--        <h1 th:text="${brandName} ?: 'Your Company'">Your Company</h1>-->
+<!--    </div>-->
+
+    <div class="content">
+        <p>Hi <span th:text="${userName}">User</span>,</p>
+        <div class="otp-box" th:text="${otp}">123456</div>
+        <p>
+            <a th:href="${verificationLink}" th:if="${verificationLink}" class="cta">Verify now</a>
+        </p>
+        <hr/>
+    </div>
+
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!doctype html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="utf-8" />-->
+<!--    <meta name="viewport" content="width=device-width,initial-scale=1" />-->
+<!--    <title>One-time passcode</title>-->
+<!--    <style>-->
+<!--        /* Simple safe inline CSS for most email clients */-->
+<!--        body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f4f6f8; color:#333; }-->
+<!--        .container { max-width:600px; margin:28px auto; background:#ffffff; border-radius:8px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.08); }-->
+<!--        .header { padding:20px; background:#0d6efd; color:#fff; text-align:center; }-->
+<!--        .content { padding:24px; }-->
+<!--        .otp-box { margin:20px auto; width:fit-content; background:#f7f9fc; padding:18px 22px; border-radius:8px; font-size:28px; letter-spacing:6px; font-weight:700; }-->
+<!--        .small { font-size:13px; color:#666; }-->
+<!--        .cta { display:inline-block; margin-top:18px; padding:10px 16px; background:#0d6efd; color:#fff; border-radius:6px; text-decoration:none; }-->
+<!--        .footer { padding:18px; font-size:12px; color:#888; text-align:center; background:#fafafa; }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container" role="article" aria-label="OTP email">-->
+
+<!--    <div class="content">-->
+
+<!--        <div class="otp-box" th:text="${otp}">123456</div>-->
+<!--        <p class="small">If you didn't request this, you can safely ignore this email — no action is required.</p>-->
+<!--        <hr/>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

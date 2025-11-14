@@ -1,4 +1,54 @@
-<p>register works!</p>
+<h2 class="title">Register</h2>
+
+<form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+
+  <label>Name:</label>
+  <input formControlName="name" />
+
+  <label>Email:</label>
+  <input formControlName="email" type="email" />
+  <span class="error" *ngIf="registerForm.controls['email'].touched && registerForm.controls['email'].invalid">
+    Enter a valid email
+  </span>
+
+  <label>Contact Number:</label>
+  <input formControlName="contactNumber" type="text" />
+  <span class="error" *ngIf="registerForm.controls['contactNumber'].touched && registerForm.controls['contactNumber'].invalid">
+    Enter 10 digit contact number
+  </span>
+
+  <label>Password:</label>
+  <input formControlName="password" type="password" />
+  <span class="error" *ngIf="registerForm.controls['password'].touched && registerForm.controls['password'].invalid">
+    Minimum 6 characters
+  </span>
+
+  <button type="submit" [disabled]="registerForm.invalid">Register</button>
+</form>
+
+<p>Already have an account?
+  <button routerLink="/login">Login</button>
+</p>
+
+<p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+<p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <p>register works!</p>
 <h2>Register</h2>
 <form (ngSubmit)="onRegister()">
   <label>Name:</label>
@@ -14,4 +64,4 @@
   <button type="submit">Register</button>
 </form>
 
-<p> Already have an account? <button routerLink="/login"> Login</button></p>
+<p> Already have an account? <button routerLink="/login"> Login</button></p> -->
