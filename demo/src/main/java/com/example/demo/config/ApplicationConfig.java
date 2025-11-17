@@ -3,7 +3,6 @@ package com.example.demo.config;
 
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    @Autowired
     public final UserRepository userRepo;
 
     @Bean

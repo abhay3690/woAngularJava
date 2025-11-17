@@ -15,9 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
+
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(
@@ -45,7 +44,7 @@ public class User implements UserDetails {
     private String email;
 
     @NotBlank(message = "Contact number is required")
-    @Pattern(regexp = "^[0-9]{10}$", message = "Contact number must be 10 digits")
+    @Pattern(regexp = "^\\d{10}$", message = "Contact number must be 10 digits")
     @Column(name = "contact_number", nullable = false, unique = true)
     private String contactNumber;
 
@@ -58,16 +57,15 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
-    private Set<Role> roles = new HashSet();
+    private Set<Role> roles = new HashSet<>();
     private String otp;
     @Column(name = "otp_generated_time")
     private LocalDateTime otpGeneratedTime;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> authorities = this.roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-        return authorities;
+        return this.roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName())).toList();
     }
 
     @Override

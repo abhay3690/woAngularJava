@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -24,10 +24,10 @@ import java.util.List;
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableWebMvc
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
-    public static final String[] PUBLIC_URLS = {
+    protected String[] publicUrls = {
             "/api/v1/auth/**",
             "/v3/api-docs/**",
             "/swagger-resources/**",
@@ -48,11 +48,11 @@ public class SecurityConfiguration {
         http
                 // Enable CORS and disable CSRF
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf ->   csrf.disable())
 
                 // Configure URL access
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(PUBLIC_URLS).permitAll()
+                        .requestMatchers(publicUrls).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**", "/api/v1/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -94,29 +94,3 @@ public class SecurityConfiguration {
         return source;
     }
 }
-//@Configuration
-//@EnableWebSecurity
-//@RequiredArgsConstructor
-//@EnableWebMvc
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
-//public class SecurityConfiguration {
-//    public static final String[] PUBLIC_URLS = { "/api/v1/auth/**", "/v3/api-docs/**", "/swagger-resources/**", "swagger-ui/**", "/webjars/**" };
-//
-//    private final JWTAuthenticationFilter jwtAuthFilter;
-//    private final AuthenticationProvider authenticationProvider;
-//
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.csrf().disable().authorizeHttpRequests().requestMatchers(PUBLIC_URLS).permitAll()
-////		.requestMatchers("/api/v1/auth/**").permitAll()
-////		.requestMatchers("/v3/api-docs").permitAll()
-////		.requestMatchers(HttpMethod.GET).permitAll()
-//                .anyRequest().authenticated().and().sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//                .authenticationProvider(authenticationProvider)
-//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//        return http.build();
-//    }
-//
-//}

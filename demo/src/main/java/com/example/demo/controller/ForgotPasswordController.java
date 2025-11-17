@@ -20,14 +20,14 @@ public class ForgotPasswordController {
 
     // 🔹 Step 1: Send OTP to user's email
     @PostMapping("/forgot-password")
-    public ResponseEntity<?> sendOtp(@RequestBody ForgotPasswordRequest request) {
+    public ResponseEntity<ApiResponse> sendOtp(@RequestBody ForgotPasswordRequest request) {
         String response = forgotPasswordService.generateAndSendOtp(request.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(response, true));
     }
 
     // 🔹 Step 2: Verify OTP and reset password
     @PostMapping("/reset-password")
-    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequest request) {
+    public ResponseEntity<ApiResponse> resetPassword(@RequestBody ResetPasswordRequest request) {
         String response = forgotPasswordService.verifyOtpAndResetPassword(
                 request.getEmail(),
                 request.getOtp(),

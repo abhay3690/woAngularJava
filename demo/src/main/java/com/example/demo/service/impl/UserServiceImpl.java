@@ -1,6 +1,9 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.constants.AppConstatns;
+import com.example.demo.exception.CsvWriteException;
+import com.example.demo.exception.DuplicateResourceException;
+import com.example.demo.exception.ResourceNotFoundExceptionn;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.repository.RoleRepository;
@@ -14,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.Writer;
 import java.util.List;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 @Service
@@ -49,10 +51,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("Email already exists!");
+            throw new DuplicateResourceException("Email already exists!");
         }
         if (userRepository.existsByContactNumber(user.getContactNumber())) {
-            throw new RuntimeException("Contact number already exists!");
+            throw new DuplicateResourceException("Contact number already exists!");
         }
        // ✅ Encode only once
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -78,11 +80,11 @@ public class UserServiceImpl implements UserService {
         // Check if email/contact belong to another user
         if (!existingUser.getEmail().equalsIgnoreCase(updatedUser.getEmail())
                 && userRepository.existsByEmail(updatedUser.getEmail())) {
-            throw new RuntimeException("Email already exists!");
+            throw new DuplicateResourceException("Email already exists!");
         }
         if (!existingUser.getContactNumber().equals(updatedUser.getContactNumber())
                 && userRepository.existsByContactNumber(updatedUser.getContactNumber())) {
-            throw new RuntimeException("Contact number already exists!");
+            throw new DuplicateResourceException("Contact number already exists!");
         }
 
         existingUser.setName(updatedUser.getName());
@@ -98,7 +100,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException("User not found with id " + id);
+            throw new ResourceNotFoundExceptionn("User not found with id " + id);
         }
         userRepository.deleteById(id);
     }
@@ -118,14 +120,15 @@ public class UserServiceImpl implements UserService {
         }
 
         if (users.isEmpty()) {
-            throw new RuntimeException("No users found" +
-                    (name != null && !name.isBlank() ? " with name: " + name : "") + "!");
+            throw new ResourceNotFoundExceptionn(
+                    "No users found" + (name != null ? " with name: " + name : "") + "!"
+            );
         }
 
         try {
             writer.write("ID,Name,Email,Contact Number\n");
             for (User user : users) {
-                writer.write(String.format("%d,%s,%s,%s\n",
+                writer.write(String.format("%d,%s,%s,%s%n",
                         user.getId(),
                         user.getName(),
                         user.getEmail(),
@@ -133,7 +136,7 @@ public class UserServiceImpl implements UserService {
             }
             writer.flush();
         } catch (Exception e) {
-            throw new RuntimeException("Error while writing CSV: " + e.getMessage());
+            throw new CsvWriteException("Error while writing CSV: " + e.getMessage());
         }
     }
 

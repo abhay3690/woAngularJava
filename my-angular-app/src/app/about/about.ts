@@ -9,13 +9,13 @@ import { Component } from '@angular/core';
 })
 
 export class About {
-  companyName = 'TechNova Health Systems Pvt. Ltd.';
+  companyName = 'Ework Pvt. Ltd.';
   foundedYear = 2015;
   address = {
     street: '123 Innovation Drive',
     city: 'Bangalore',
     state: 'Karnataka',
-    zip: '560001',
+    zip: '56000afd1',
     country: 'India'
   };
   contactEmail = 'contact@technovahealth.com';
@@ -27,9 +27,9 @@ export class About {
     'To revolutionize healthcare with innovative, cloud-based digital ecosystems that improve outcomes and streamline operations.';
 
   team = [
-    { name: 'Ravi Kumar', role: 'CEO & Founder', image: 'assets/images/ceo.jpg' },
-    { name: 'Ananya Sharma', role: 'CTO', image: 'assets/images/cto.jpg' },
-    { name: 'Rohit Verma', role: 'VP - Product Strategy', image: 'assets/images/marketing.jpg' },
-    { name: 'Priya Singh', role: 'Head of Design', image: 'assets/images/designer.jpg' }
+    { name: 'test', role: 'CEO & Founder', image: 'assets/images/ceo.jpg' },
+    { name: 'test', role: 'CTO', image: 'assets/images/cto.jpg' },
+    { name: 'test', role: 'VP - Product Strategy', image: 'assets/images/marketing.jpg' },
+    { name: 'test', role: 'Head of Design', image: 'assets/images/designer.jpg' }
   ];
 }

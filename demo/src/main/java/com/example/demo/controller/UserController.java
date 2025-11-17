@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.exception.ApiException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import jakarta.validation.Valid;
@@ -9,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true") // Angular support
 @RestController
@@ -29,36 +32,36 @@ public class UserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+    public ResponseEntity<String> getUserById(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(userService.getUserById(id));
+            return ResponseEntity.ok(userService.getUserById(id).toString());
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
+    public ResponseEntity<String> createUser(@Valid @RequestBody User user) {
         try {
             User createdUser = userService.createUser(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdUser.toString());
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody User user) {
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @Valid @RequestBody User user) {
         try {
             User updatedUser = userService.updateUser(id, user);
-            return ResponseEntity.ok(updatedUser);
+            return ResponseEntity.ok(updatedUser.toString());
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         try {
             userService.deleteUser(id);
             return ResponseEntity.noContent().build();
@@ -83,13 +86,10 @@ public class UserController {
 
         try {
             userService.exportUserToCSV(response.getWriter(), name);
-        } catch (RuntimeException e) {
+        } catch (ResourceNotFoundException e) {
             response.setStatus(HttpStatus.NOT_FOUND.value());
-            try {
-                response.getWriter().write(e.getMessage());
-            } catch (Exception ignored) {}
-        } catch (Exception e) {
-            throw new RuntimeException("Error exporting CSV: " + e.getMessage());
+        } catch (IOException e) {
+            throw new ApiException("Error exporting CSV: " + e.getMessage());
         }
     }
 }

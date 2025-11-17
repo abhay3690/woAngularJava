@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.ResourceNotFoundExceptionn;
 import com.example.demo.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -15,12 +16,12 @@ import org.thymeleaf.context.Context;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
 public class ForgotPasswordService {
+    private static final Random RANDOM = new Random();
 
     private final UserRepository userRepository;
     private final JavaMailSender mailSender;
@@ -28,22 +29,22 @@ public class ForgotPasswordService {
     private final JavaMailSender javaMailSender;
 
     @Value("${spring.mail.recieved.hostname}")
-    private String MAIL_FROM_HOST_NAME;
+    private String  mailFromHostName;
     @Value("${spring.mail.fromName}")
-    private String MAIL_FROM_NAME;
+    private String  mailFromName;
     @Value("${spring.send.otp.template.name}")
-    private String SEND_OTP_TEMPLATE_NAME;
+    private String   sendOtpTempName;
 
     private final TemplateEngine templateEngine;
 
     public String generateAndSendOtp(String email) {
         var userOpt = userRepository.findByEmail(email);
         if (userOpt.isEmpty()) {
-            throw new RuntimeException("No user found with this email: " + email);
+            throw new ResourceNotFoundExceptionn("No user found with this email: " + email);
         }
 
         var user = userOpt.get();
-        String otp = String.format("%06d", new Random().nextInt(999999));
+        String otp = String.format("%06d", RANDOM.nextInt(1_000_000));
 
         user.setOtp(otp);
         user.setOtpGeneratedTime(LocalDateTime.now());
@@ -53,7 +54,7 @@ public class ForgotPasswordService {
             sendOtpEmail(email, otp, user.getName());
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to send OTP: " + e.getMessage());
+            throw new ResourceNotFoundExceptionn("Failed to send OTP: " + e.getMessage());
 
         }
 
@@ -62,16 +63,15 @@ public class ForgotPasswordService {
 
     public String verifyOtpAndResetPassword(String email, String otp, String newPassword) {
 
-        System.out.println(newPassword);
         var userOpt = userRepository.findByEmail(email);
         if (userOpt.isEmpty()) {
-            throw new RuntimeException("No user found with this email!");
+            throw new ResourceNotFoundExceptionn("No user found with this email!");
         }
 
         var user = userOpt.get();
 
         if (!otp.equals(user.getOtp())) {
-            throw new RuntimeException("Invalid OTP!");
+            throw new ResourceNotFoundExceptionn("Invalid OTP!");
         }
 
         user.setPassword(passwordEncoder.encode(newPassword));
@@ -94,12 +94,12 @@ public class ForgotPasswordService {
 
         mimeMessageHelper.setTo(to);
         mimeMessageHelper.setSubject(subject);
-        mimeMessageHelper.setFrom(MAIL_FROM_HOST_NAME, MAIL_FROM_NAME);
+        mimeMessageHelper.setFrom(mailFromHostName, mailFromName);
 
         // Thymeleaf template processing
         Context context = initializeThymeleafContext(otp, name);
 
-        String emailTemplate = templateEngine.process(SEND_OTP_TEMPLATE_NAME, context);
+        String emailTemplate = templateEngine.process(sendOtpTempName, context);
         mimeMessageHelper.setText(emailTemplate, true);
 
         javaMailSender.send(mimeMessage);

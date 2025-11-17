@@ -19,13 +19,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse> resourceNotFoundExceptionHandler(ResourceNotFoundException ex) {
         String message = ex.getMessage();
         ApiResponse apiResponse = new ApiResponse(message, false);
-        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleMethodArgsNotValidExption(MethodArgumentNotValidException ex) {
         Map<String, String> resp = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
+        ex.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
             resp.put(fieldName, message);
@@ -36,6 +36,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse> handleApiException(ApiException ex){
         String message = ex.getMessage();
         ApiResponse apiResponse = new ApiResponse(message, false);
-        return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiResponse,HttpStatus.BAD_REQUEST);
     }
 }
